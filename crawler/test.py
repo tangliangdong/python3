@@ -60,37 +60,6 @@ def captureDestop():
         request.urlretrieve(src, "E://tangliangdong//python3//img//壁纸//" + alt + ".jpg")
 
 
-def captureGirlDestop():
-    path = save_path + "壁纸//girl//"
-    if(not os.path.exists(path)):
-        os.makedirs(path)
-
-    index = 1;
-    while(index <= 100):
-        num = 1;
-        url = 'http://desk.zol.com.cn/meinv/1920x1080/hot_'+str(index)+'.html'
-        page = requests.Session().get(url)
-        page.encoding='gbk'
-        tree = html.fromstring(page.text)
-        img_path = path + str(index)
-        result = tree.xpath('//ul[contains(@class, "pic-list2")]//li[@class="photo-list-padding"]//a//img')  # 获取需要的数据
-        if len(result) == 0:
-            print("没有新的页面了")
-            return
-        if not os.path.exists(img_path): #创建文件夹
-            os.makedirs(img_path)
-
-        for item in result:
-            src = quote(item.xpath('@src')[0], safe=string.printable)
-            alt = item.xpath('@alt')[0]
-            print(src, alt, num)
-            num+=1
-            request.urlretrieve(src, img_path + "//" + alt + ".jpg")
-
-        index += 1
-        time.sleep(2)
-
-
 def caputePicture(path, url):
     if(not os.path.exists(path)):
         os.makedirs(path)
